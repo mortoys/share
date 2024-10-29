@@ -11,27 +11,6 @@ SVG 号称是一种声明式的图形描述语言，但是在涉及坐标和尺�
 
 所以导致大语言模型无法合理的描述图形之间的关系，但是我们在 css 中解决过这个问题，只是解决方案并不能完全迁移到图案描述上。
 
-比方说：[Prompt 制作方法：文字逻辑关系图](https://mp.weixin.qq.com/s/d0y3e5ZJYDNi0tD-QXNA4g)
-
-```lisp
-(defun 智能绘制连接线 (x1 y1 x2 y2 &optional 曲线程度)
-  "智能绘制灰色虚线箭头，避免穿过色块"
-  (let ((dx (- x2 x1))
-        (dy (- y2 y1))
-        (mid-x (/ (+ x1 x2) 2))
-        (mid-y (/ (+ y1 y2) 2)))
-    (if 曲线程度
-(path d ,(format "M%d,%d Q%d,%d %d,%d" 
-                          x1 y1 
-                          (+ mid-x (* dx 曲线程度)) (+ mid-y (* dy 曲线程度))
-                          x2 y2)
-               stroke="#808080" stroke-width="2" stroke-dasharray="5,5"
-               fill="none" marker-end="url(#arrowhead)")
-      `(path d ,(format "M%d,%d L%d,%d" x1 y1 x2 y2)
-             stroke="#808080" stroke-width="2" stroke-dasharray="5,5"
-             marker-end="url(#arrowhead)"))))
-```
-
     目标：弥补 SVG 在布局和坐标上的不足，让其具备完整的声明式语言特性。
     方法：通过引入约束求解引擎 Kiwi.js，实现 SVG 中坐标和尺寸的自动求解，让图形的布局与定位由声明式约束控制。
     用途：增强大语言模型对 SVG 的理解，使其能在声明式框架下生成复杂图形。
